@@ -234,11 +234,14 @@ function Kitap() {
       if (e.key === 'ArrowLeft') geri()
     }
     window.addEventListener('keydown', tu)
+    return () => window.removeEventListener('keydown', tu)
+  }, [ileri, geri])
+
+  useEffect(() => {
     return () => {
-      window.removeEventListener('keydown', tu)
       if (zamanlayici.current) clearTimeout(zamanlayici.current)
     }
-  }, [ileri, geri])
+  }, [])
 
   const yaprakOn = SAYFALAR[sayfa]
   const yaprakArka = ceviriyor
