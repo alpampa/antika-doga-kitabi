@@ -26,7 +26,7 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: radial-gradient(ellipse at center, #15201a 0%, #050907 78%);
+  background: radial-gradient(ellipse at center, #16221b 0%, #050907 78%);
 }
 
 .sahne-bg {
@@ -35,7 +35,7 @@ body {
   width: 128%;
   height: 128%;
   object-fit: cover;
-  filter: blur(14px) brightness(0.5) saturate(1.15);
+  filter: blur(15px) brightness(0.48) saturate(1.15);
   transform: scale(1.04);
   z-index: 0;
 }
@@ -46,24 +46,24 @@ body {
   z-index: 1;
   background:
     linear-gradient(to bottom,
-      rgba(4, 8, 6, 0.86) 0%,
-      rgba(4, 8, 6, 0.22) 24%,
-      rgba(4, 8, 6, 0.12) 50%,
-      rgba(4, 8, 6, 0.38) 78%,
-      rgba(4, 8, 6, 0.9) 100%),
-    radial-gradient(ellipse at 50% 46%, rgba(0, 0, 0, 0) 32%, rgba(0, 0, 0, 0.58) 100%);
+      rgba(4, 8, 6, 0.88) 0%,
+      rgba(4, 8, 6, 0.2) 24%,
+      rgba(4, 8, 6, 0.1) 50%,
+      rgba(4, 8, 6, 0.4) 78%,
+      rgba(4, 8, 6, 0.92) 100%),
+    radial-gradient(ellipse at 50% 46%, rgba(0, 0, 0, 0) 32%, rgba(0, 0, 0, 0.6) 100%);
 }
 
 .sahne-baslik {
   position: relative;
   z-index: 3;
   text-align: center;
-  padding: 16px 24px 4px;
+  padding: 14px 24px 4px;
 }
 
 .sahne-baslik h1 {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(17px, 2.5vw, 30px);
+  font-size: clamp(16px, 2.4vw, 30px);
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -80,169 +80,38 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: clamp(10px, 1.6vw, 22px);
   width: min(97vw, 1560px);
   flex: 1;
   min-height: 0;
-  padding: 10px 0 4px;
-  perspective: 2800px;
+  padding: 8px 0 4px;
+  perspective: 3000px;
 }
 
 .kitap {
   position: relative;
-  height: min(72vh, 840px);
-  width: min(91vw, 1500px);
-  max-width: calc(100vw - 180px);
+  height: min(76vh, 880px);
+  aspect-ratio: 5 / 7;
+  max-width: 92vw;
   transform-style: preserve-3d;
-  filter: drop-shadow(0 40px 90px rgba(0, 0, 0, 0.85)) drop-shadow(0 12px 28px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 46px 100px rgba(0, 0, 0, 0.9)) drop-shadow(0 16px 34px rgba(0, 0, 0, 0.65));
 }
-
-.kitap-sirt {
-  position: absolute;
-  top: -14px;
-  bottom: -14px;
-  left: 50%;
-  width: 22px;
-  transform: translateX(-50%);
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 30%, rgba(255, 255, 255, 0.08) 50%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0) 100%);
-  z-index: 8;
-  pointer-events: none;
-  border-radius: 6px;
-}
-
-.kitap-sayfa-alani {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-}
-
-.sayfa {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  background:
-    linear-gradient(160deg, rgba(30, 41, 34, 0.99) 0%, rgba(17, 24, 20, 0.99) 55%, rgba(12, 17, 14, 0.99) 100%);
-  color: #e9e2d2;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    inset 0 0 60px rgba(0, 0, 0, 0.55);
-  padding: clamp(14px, 2.4vh, 26px) clamp(14px, 2.4vw, 30px);
-  overflow: hidden;
-}
-
-.sayfa-sol {
-  left: 0;
-  border-radius: 8px 2px 2px 8px;
-}
-
-.sayfa-sol::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 46px;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
-  pointer-events: none;
-}
-
-.sayfa-bos {
-  width: 100%;
-  height: 100%;
-}
-
-.sayfa-ic {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: clamp(8px, 1.4vh, 14px);
-}
-
-.sayfa-baslik {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(15px, 1.7vw, 22px);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #e3cf9e;
-  text-align: center;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
-}
-
-.sayfa-cizgi {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(216, 192, 131, 0.55) 30%, rgba(216, 192, 131, 0.55) 70%, transparent);
-  flex-shrink: 0;
-}
-
-.gorsel-cerceve {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse at center, rgba(40, 56, 46, 0.5) 0%, rgba(8, 12, 10, 0.9) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    inset 0 0 46px rgba(0, 0, 0, 0.75),
-    0 18px 44px rgba(0, 0, 0, 0.6);
-}
-
-.gorsel {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  image-rendering: auto;
-  filter: saturate(1.06) contrast(1.03);
-}
-
-.sayfa-aciklama {
-  font-size: clamp(11px, 1.15vw, 15px);
-  line-height: 1.62;
-  color: #cfc7b4;
-  text-align: justify;
-  hyphens: auto;
-}
-
-.sayfa-paragraf {
-  font-size: clamp(12px, 1.25vw, 16px);
-  line-height: 1.7;
-  color: #d8d0bc;
-  text-align: justify;
-  hyphens: auto;
-}
-
-.sayfa-imza {
-  margin-top: auto;
-  text-align: right;
-  font-style: italic;
-  color: #b3965a;
-  font-size: clamp(12px, 1.2vw, 16px);
-  letter-spacing: 0.06em;
-}
-
-/* --- 3D yaprak çevirme --- */
 
 .sayfa-yapragi {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 50%;
+  inset: 0;
   transform-style: preserve-3d;
   transform-origin: left center;
-  transition: transform 1.1s cubic-bezier(0.62, 0.04, 0.28, 0.94);
+  transition: transform 1.05s cubic-bezier(0.62, 0.04, 0.28, 0.94);
   cursor: pointer;
   z-index: 5;
+  border-radius: 10px;
 }
 
 .sayfa-yapragi.ceviriliyor {
   transform: rotateY(-180deg);
   z-index: 7;
+  filter: drop-shadow(34px 26px 50px rgba(0, 0, 0, 0.55));
 }
 
 .sayfa-yapragi.animsiz {
@@ -254,25 +123,169 @@ body {
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border-radius: 4px;
+  border-radius: 10px;
   overflow: hidden;
+  background:
+    linear-gradient(160deg, rgba(31, 42, 35, 0.99) 0%, rgba(18, 25, 21, 0.99) 55%, rgba(13, 18, 15, 0.99) 100%);
 }
 
 .yaprak-on {
   z-index: 2;
-  background: linear-gradient(160deg, rgba(30, 41, 34, 0.99) 0%, rgba(17, 24, 20, 0.99) 55%, rgba(12, 17, 14, 0.99) 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    inset 0 0 60px rgba(0, 0, 0, 0.55);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 70px rgba(0, 0, 0, 0.6);
 }
 
 .yaprak-arka {
   z-index: 1;
   transform: rotateY(180deg);
-  background: linear-gradient(200deg, rgba(28, 38, 32, 0.99) 0%, rgba(15, 21, 18, 0.99) 60%, rgba(11, 16, 13, 0.99) 100%);
+  background:
+    linear-gradient(200deg, rgba(29, 39, 33, 0.99) 0%, rgba(16, 22, 19, 0.99) 60%, rgba(12, 17, 14, 0.99) 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    inset 0 0 60px rgba(0, 0, 0, 0.6);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 70px rgba(0, 0, 0, 0.65);
+}
+
+/* altın iç çerçeve */
+.yaprak-yuz::before {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(216, 192, 131, 0.34);
+  border-radius: 6px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* sol kenar kıvrım gölgesi */
+.yaprak-on::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  pointer-events: none;
+  z-index: 4;
+}
+
+.sayfa-ic {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: clamp(16px, 2.6vh, 30px) clamp(18px, 2.6vw, 34px);
+  gap: clamp(8px, 1.3vh, 14px);
+  overflow: hidden;
+}
+
+.metin-sayfasi {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(216, 192, 131, 0.45) transparent;
+  padding-right: clamp(24px, 3vw, 40px);
+}
+
+.sayfa-baslik {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(15px, 1.8vw, 23px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e3cf9e;
+  text-align: center;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+  flex-shrink: 0;
+}
+
+.sayfa-cizgi {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(216, 192, 131, 0.55) 30%, rgba(216, 192, 131, 0.55) 70%, transparent);
+  flex-shrink: 0;
+}
+
+.gorsel-cerceve {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0a0e0c;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    inset 0 0 54px rgba(0, 0, 0, 0.65),
+    0 16px 44px rgba(0, 0, 0, 0.55);
+}
+
+.gorsel-golge {
+  position: absolute;
+  inset: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  object-fit: cover;
+  filter: blur(26px) brightness(0.5) saturate(1.1);
+  transform: scale(1.06);
+  z-index: 0;
+}
+
+.gorsel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+  filter: saturate(1.06) contrast(1.03) drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+}
+
+.sayfa-aciklama {
+  flex-shrink: 0;
+  max-height: 30%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(216, 192, 131, 0.45) transparent;
+  font-size: clamp(11px, 1.2vw, 15px);
+  line-height: 1.62;
+  color: #d3cbb6;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.sayfa-paragraf {
+  font-size: clamp(12px, 1.3vw, 16px);
+  line-height: 1.72;
+  color: #d8d0bc;
+  text-align: justify;
+  hyphens: auto;
+  margin-bottom: clamp(8px, 1.4vh, 14px);
+}
+
+.sayfa-imza {
+  margin-top: auto;
+  text-align: right;
+  font-style: italic;
+  color: #b3965a;
+  font-size: clamp(12px, 1.2vw, 16px);
+  letter-spacing: 0.06em;
+  padding-bottom: 6px;
+}
+
+.sayfa-numara {
+  position: absolute;
+  right: 20px;
+  bottom: 14px;
+  z-index: 6;
+  font-size: clamp(10px, 1vw, 13px);
+  letter-spacing: 0.22em;
+  color: rgba(235, 228, 212, 0.82);
+  background: rgba(6, 10, 8, 0.62);
+  border: 1px solid rgba(216, 192, 131, 0.28);
+  padding: 3px 14px;
+  border-radius: 999px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  pointer-events: none;
 }
 
 /* --- Kapak --- */
@@ -282,6 +295,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .kapak-cerceve {
@@ -289,7 +303,7 @@ body {
   max-width: 460px;
   text-align: center;
   padding: clamp(18px, 3vh, 36px) clamp(14px, 2vw, 28px);
-  border: 1px solid rgba(216, 192, 131, 0.4);
+  border: 1px solid rgba(216, 192, 131, 0.42);
   border-radius: 4px;
   background:
     radial-gradient(ellipse at 50% 35%, rgba(76, 62, 36, 0.35) 0%, rgba(12, 16, 13, 0.6) 100%);
@@ -409,7 +423,7 @@ body {
 
 @media (max-width: 1024px) {
   .kitap {
-    height: min(70vh, 720px);
+    height: min(72vh, 760px);
   }
   .kitap-sahne {
     gap: 12px;
@@ -418,8 +432,7 @@ body {
 
 @media (max-width: 720px) {
   .kitap {
-    height: min(66vh, 620px);
-    max-width: calc(100vw - 108px);
+    height: min(60vh, 640px);
   }
   .kitap-sahne {
     gap: 8px;
@@ -430,8 +443,12 @@ body {
     height: 40px;
     font-size: 20px;
   }
-  .kitap-sirt {
-    width: 14px;
+  .yaprak-yuz::before {
+    inset: 6px;
+  }
+  .sayfa-numara {
+    right: 12px;
+    bottom: 10px;
   }
   .sahne-baslik h1 {
     letter-spacing: 0.08em;
@@ -440,7 +457,7 @@ body {
 
 @media (max-width: 480px) {
   .kitap {
-    max-width: calc(100vw - 96px);
+    height: min(56vh, 560px);
   }
   .sayfa-aciklama {
     font-size: 10px;

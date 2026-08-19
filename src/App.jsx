@@ -128,7 +128,7 @@ function KapakIcerik() {
 
 function OnsozIcerik() {
   return (
-    <div className="sayfa-ic">
+    <div className="sayfa-ic metin-sayfasi">
       <h2 className="sayfa-baslik">Önsöz</h2>
       <div className="sayfa-cizgi" />
       <p className="sayfa-paragraf">
@@ -154,7 +154,7 @@ function OnsozIcerik() {
 
 function SonsozIcerik() {
   return (
-    <div className="sayfa-ic">
+    <div className="sayfa-ic metin-sayfasi">
       <h2 className="sayfa-baslik">Sonsöz</h2>
       <div className="sayfa-cizgi" />
       <p className="sayfa-paragraf">
@@ -172,18 +172,19 @@ function SonsozIcerik() {
 }
 
 function GorselIcerik({ g }) {
+  const yol = BASE + 'assets/' + g.img
   return (
-    <div className="sayfa-ic">
+    <div className="sayfa-ic gorsel-sayfasi">
       <h2 className="sayfa-baslik">{g.baslik}</h2>
       <div className="sayfa-cizgi" />
       <div className="gorsel-cerceve">
-        <img className="gorsel" src={`${BASE}assets/${g.img}`} alt={g.baslik} />
+        <img className="gorsel-golge" src={yol} alt="" aria-hidden="true" />
+        <img className="gorsel" src={yol} alt={g.baslik} />
       </div>
       <p className="sayfa-aciklama">{g.aciklama}</p>
     </div>
   )
 }
-
 function SayfaIcerik({ sayfa }) {
   if (sayfa.tip === 'kapak') return <KapakIcerik />
   if (sayfa.tip === 'onsoz') return <OnsozIcerik />
@@ -192,17 +193,17 @@ function SayfaIcerik({ sayfa }) {
 }
 
 function Kitap() {
-  const [spread, setSpread] = useState(0)
+  const [sayfa, setSayfa] = useState(0)
   const [ceviriyor, setCeviriyor] = useState(false)
   const [yon, setYon] = useState('ileri')
   const [animsiz, setAnimsiz] = useState(false)
   const kilit = useRef(false)
   const zamanlayici = useRef(null)
 
-  const sonSpread = Math.floor(SAYFALAR.length / 2) - 1
+  const sonSayfa = SAYFALAR.length - 1
 
   const cevirmeyiBitir = useCallback((hedef) => {
-    setSpread(hedef)
+    setSayfa(hedef)
     setCeviriyor(false)
     setAnimsiz(true)
     zamanlayici.current = setTimeout(() => {
@@ -212,20 +213,20 @@ function Kitap() {
   }, [])
 
   const ileri = useCallback(() => {
-    if (kilit.current || spread >= sonSpread) return
+    if (kilit.current || sayfa >= sonSayfa) return
     kilit.current = true
     setYon('ileri')
     setCeviriyor(true)
-    zamanlayici.current = setTimeout(() => cevirmeyiBitir(spread + 1), 1150)
-  }, [spread, sonSpread, cevirmeyiBitir])
+    zamanlayici.current = setTimeout(() => cevirmeyiBitir(sayfa + 1), 1080)
+  }, [sayfa, sonSayfa, cevirmeyiBitir])
 
   const geri = useCallback(() => {
-    if (kilit.current || spread <= 0) return
+    if (kilit.current || sayfa <= 0) return
     kilit.current = true
     setYon('geri')
     setCeviriyor(true)
-    zamanlayici.current = setTimeout(() => cevirmeyiBitir(spread - 1), 1150)
-  }, [spread, cevirmeyiBitir])
+    zamanlayici.current = setTimeout(() => cevirmeyiBitir(sayfa - 1), 1080)
+  }, [sayfa, cevirmeyiBitir])
 
   useEffect(() => {
     const tu = (e) => {
@@ -239,17 +240,18 @@ function Kitap() {
     }
   }, [ileri, geri])
 
-  const solSayfa = SAYFALAR[spread * 2]
-  const yaprakOn = SAYFALAR[spread * 2 + 1]
+  const yaprakOn = SAYFALAR[sayfa]
   const yaprakArka = ceviriyor
-    ? (yon === 'ileri' ? SAYFALAR[(spread + 1) * 2] : SAYFALAR[(spread - 1) * 2])
-    : SAYFALAR[(spread + 1) * 2]
+    ? yon === 'ileri'
+      ? SAYFALAR[sayfa + 1]
+      : SAYFALAR[sayfa - 1]
+    : SAYFALAR[sayfa + 1]
 
   return (
     <div className="kitap-sahne">
       <button
         type="button"
-        className={`kitap-ok kitap-ok-sol ${spread <= 0 ? 'gizli' : ''}`}
+        className={'kitap-ok kitap-ok-sol' + (sayfa <= 0 ? ' gizli' : '')}
         onClick={geri}
         aria-label="Önceki sayfa"
       >
@@ -257,28 +259,36 @@ function Kitap() {
       </button>
 
       <div className="kitap">
-        <div className="kitap-sirt" />
-        <div className="kitap-sayfa-alani">
-          <div className="sayfa sayfa-sol" onClick={geri}>
-            <SayfaIcerik sayfa={solSayfa} />
+        <div
+          className={
+            'sayfa-yapragi' +
+            (ceviriyor ? ' ceviriliyor' : '') +
+            (animsiz ? ' animsiz' : '')
+          }
+          onClick={ileri}
+        >
+          <div className="yaprak-yuz yaprak-on">
+            <SayfaIcerik sayfa={yaprakOn} />
+            {yaprakOn && yaprakOn.tip !== 'kapak' && (
+              <div className="sayfa-numara">
+                Sayfa {sayfa + 1} / {SAYFALAR.length}
+              </div>
+            )}
           </div>
-          <div
-            className={`sayfa-yapragi ${ceviriyor ? 'ceviriliyor' : ''} ${animsiz ? 'animsiz' : ''}`}
-            onClick={ileri}
-          >
-            <div className="yaprak-yuz yaprak-on">
-              <SayfaIcerik sayfa={yaprakOn} />
-            </div>
-            <div className="yaprak-yuz yaprak-arka">
-              {yaprakArka ? <SayfaIcerik sayfa={yaprakArka} /> : <div className="sayfa-bos" />}
-            </div>
+          <div className="yaprak-yuz yaprak-arka">
+            {yaprakArka ? <SayfaIcerik sayfa={yaprakArka} /> : <div className="sayfa-bos" />}
+            {yaprakArka && yaprakArka.tip !== 'kapak' && (
+              <div className="sayfa-numara">
+                Sayfa {yon === 'ileri' ? sayfa + 2 : sayfa} / {SAYFALAR.length}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       <button
         type="button"
-        className={`kitap-ok kitap-ok-sag ${spread >= sonSpread ? 'gizli' : ''}`}
+        className={'kitap-ok kitap-ok-sag' + (sayfa >= sonSayfa ? ' gizli' : '')}
         onClick={ileri}
         aria-label="Sonraki sayfa"
       >
@@ -286,7 +296,7 @@ function Kitap() {
       </button>
 
       <div className="kitap-sayac">
-        {spread + 1} / {sonSpread + 1}
+        {sayfa + 1} / {SAYFALAR.length}
       </div>
     </div>
   )
@@ -295,7 +305,7 @@ function Kitap() {
 function App() {
   return (
     <div className="sahne">
-      <img className="sahne-bg" src={`${BASE}assets/doga_2_dag_vadisi.jpg`} alt="" />
+      <img className="sahne-bg" src={BASE + 'assets/doga_2_dag_vadisi.jpg'} alt="" />
       <div className="sahne-perde" />
       <header className="sahne-baslik">
         <h1>Dört Mevsimin Tek Manzarası: Ekolojik Döngü</h1>
@@ -307,3 +317,4 @@ function App() {
 }
 
 export default App
+
