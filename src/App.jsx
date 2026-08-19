@@ -1,13 +1,6 @@
-import React from 'react'
-import HTMLFlipBook from 'react-pageflip'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const BASE = import.meta.env.BASE_URL
-
-const Page = React.forwardRef(({ children, className }, ref) => (
-  <div className={`kitap-sayfa ${className || ''}`} ref={ref}>
-    {children}
-  </div>
-))
 
 const DOGA_SAYFALARI = [
   {
@@ -105,12 +98,22 @@ const URUN_SAYFALARI = [
   },
 ]
 
-const KAPAK_SAYFA = (key) => (
-  <Page key={key} className="kapak-sayfa">
+const SAYFALAR = [
+  { tip: 'kapak' },
+  { tip: 'onsoz' },
+  ...DOGA_SAYFALARI.map((g) => ({ tip: 'gorsel', g })),
+  ...URUN_SAYFALARI.map((g) => ({ tip: 'gorsel', g })),
+  { tip: 'sonsoz' },
+]
+
+function KapakIcerik() {
+  return (
     <div className="kapak-ic">
       <div className="kapak-cerceve">
         <div className="kapak-sus">✦</div>
-        <h1 className="kapak-baslik">DÖRT MEVSİMİN<br />TEK MANZARASI</h1>
+        <h1 className="kapak-baslik">
+          DÖRT MEVSİMİN<br />TEK MANZARASI
+        </h1>
         <p className="kapak-alt-baslik">Ekolojik Döngü</p>
         <div className="kapak-cizgi" />
         <p className="kapak-metin">
@@ -120,119 +123,187 @@ const KAPAK_SAYFA = (key) => (
         <div className="kapak-sus">✦</div>
       </div>
     </div>
-  </Page>
-)
+  )
+}
 
-const ONSOZ_SAYFA = (key) => (
-  <Page key={key} className="metin-sayfa">
+function OnsozIcerik() {
+  return (
     <div className="sayfa-ic">
       <h2 className="sayfa-baslik">Önsöz</h2>
       <div className="sayfa-cizgi" />
       <p className="sayfa-paragraf">
         Bu kitap, doğanın dört mevsimlik döngüsünü tek bir bakışta toplamak için
-        kaleme alınmıştır. Kışın dondurucu ayazı ile baharın ilk tomurcuğu arasında
-        keskin bir çizgi yoktur; doğa, renkleri bir palet gibi birbirinin içine yedirir.
+        kaleme alınmıştır. Kışın dondurucu ayazı ile baharın ilk tomurcuğu
+        arasında keskin bir çizgi yoktur; doğa, renkleri bir palet gibi
+        birbirinin içine yedirir.
       </p>
       <p className="sayfa-paragraf">
-        Sayfalar boyunca ağaçların nefes alışını ve toprağın uyanışını izleyeceksiniz.
-        Her manzaranın altında, geçişin doğasını anlatan kısa bir gözlem yazılıdır.
+        Sayfalar boyunca ağaçların nefes alışını ve toprağın uyanışını
+        izleyeceksiniz. Her manzaranın altında, geçişin doğasını anlatan kısa
+        bir gözlem yazılıdır.
       </p>
       <p className="sayfa-paragraf">
         Bu deneme; karışık ormanlardan dağ vadilerine, göl kıyılarından ürün
-        yüzeylerine uzanan on beş ayrı karede, mevsimlerin birbirine nasıl eridiğini
-        sergiler.
+        yüzeylerine uzanan on beş ayrı karede, mevsimlerin birbirine nasıl
+        eridiğini sergiler.
       </p>
       <div className="sayfa-imza">— Doğa Defteri</div>
     </div>
-  </Page>
-)
+  )
+}
 
-const SONSOZ_SAYFA = (key) => (
-  <Page key={key} className="metin-sayfa">
+function SonsozIcerik() {
+  return (
     <div className="sayfa-ic">
       <h2 className="sayfa-baslik">Sonsöz</h2>
       <div className="sayfa-cizgi" />
       <p className="sayfa-paragraf">
         Böylece, doğanın usta fırçasıyla işlenmiş on beş manzara, bir kitabın
-        sayfalarında son bulur. Keskin şeritler değil, eriyen geçişler: ağaçların
-        nefesi, suyun akışı ve ışığın mevsimden mevsime dönüşü...
+        sayfalarında son bulur. Keskin şeritler değil, eriyen geçişler:
+        ağaçların nefesi, suyun akışı ve ışığın mevsimden mevsime dönüşü...
       </p>
       <p className="sayfa-paragraf">
-        Mevsimler biter ama döngü sürer: her kışın ardından bir bahar, her kitabın
-        ardından yeni bir hikâye gelir.
+        Mevsimler biter ama döngü sürer: her kışın ardından bir bahar, her
+        kitabın ardından yeni bir hikâye gelir.
       </p>
       <div className="sayfa-imza">✦</div>
     </div>
-  </Page>
-)
-
-function GorselSayfa({ g }) {
-  return (
-    <Page className="gorsel-sayfa">
-      <div className="sayfa-ic">
-        <h2 className="sayfa-baslik">{g.baslik}</h2>
-        <div className="sayfa-cizgi" />
-        <div className="gorsel-cerceve">
-          <img
-            className="gorsel"
-            src={`${BASE}assets/${g.img}`}
-            alt={g.baslik}
-            loading="lazy"
-          />
-        </div>
-        <p className="sayfa-aciklama">{g.aciklama}</p>
-      </div>
-    </Page>
   )
 }
 
-function Kitap() {
+function GorselIcerik({ g }) {
   return (
-    <HTMLFlipBook
-      width={560}
-      height={760}
-      size="stretch"
-      minWidth={300}
-      maxWidth={920}
-      minHeight={420}
-      maxHeight={1120}
-      maxShadowOpacity={0.85}
-      showCover={false}
-      mobileScrollSupport={true}
-      drawShadow={true}
-      flippingTime={1400}
-      useMouseEvents={true}
-      clickEventForward={true}
-      usePortrait={false}
-      startZIndex={0}
-      autoSize={true}
-      showPageCorners={true}
-      disableFlipByClick={false}
-      className="kitap-canvasi"
-    >
-      {KAPAK_SAYFA('kapak')}
-      {ONSOZ_SAYFA('onsoz')}
-      {DOGA_SAYFALARI.map((g, i) => (
-        <GorselSayfa key={`doga-${i}`} g={g} />
-      ))}
-      {URUN_SAYFALARI.map((g, i) => (
-        <GorselSayfa key={`urun-${i}`} g={g} />
-      ))}
-      {SONSOZ_SAYFA('sonsoz')}
-    </HTMLFlipBook>
-  )
-}
-
-export default function App() {
-  return (
-    <div className="sahne">
-      <div className="sahne-bg" aria-hidden="true">
-        <img src={`${BASE}assets/doga_2_dag_vadisi.jpg`} alt="" />
+    <div className="sayfa-ic">
+      <h2 className="sayfa-baslik">{g.baslik}</h2>
+      <div className="sayfa-cizgi" />
+      <div className="gorsel-cerceve">
+        <img className="gorsel" src={`${BASE}assets/${g.img}`} alt={g.baslik} />
       </div>
-      <header className="sahne-baslik">
-        <h1 className="sahne-baslik-ana">Dört Mevsimin Tek Manzarası: Ekolojik Döngü</h1>
-      </header>
-      <Kitap />
+      <p className="sayfa-aciklama">{g.aciklama}</p>
     </div>
   )
 }
+
+function SayfaIcerik({ sayfa }) {
+  if (sayfa.tip === 'kapak') return <KapakIcerik />
+  if (sayfa.tip === 'onsoz') return <OnsozIcerik />
+  if (sayfa.tip === 'sonsoz') return <SonsozIcerik />
+  return <GorselIcerik g={sayfa.g} />
+}
+
+function Kitap() {
+  const [spread, setSpread] = useState(0)
+  const [ceviriyor, setCeviriyor] = useState(false)
+  const [yon, setYon] = useState('ileri')
+  const [animsiz, setAnimsiz] = useState(false)
+  const kilit = useRef(false)
+  const zamanlayici = useRef(null)
+
+  const sonSpread = Math.floor(SAYFALAR.length / 2) - 1
+
+  const cevirmeyiBitir = useCallback((hedef) => {
+    setSpread(hedef)
+    setCeviriyor(false)
+    setAnimsiz(true)
+    zamanlayici.current = setTimeout(() => {
+      setAnimsiz(false)
+      kilit.current = false
+    }, 90)
+  }, [])
+
+  const ileri = useCallback(() => {
+    if (kilit.current || spread >= sonSpread) return
+    kilit.current = true
+    setYon('ileri')
+    setCeviriyor(true)
+    zamanlayici.current = setTimeout(() => cevirmeyiBitir(spread + 1), 1150)
+  }, [spread, sonSpread, cevirmeyiBitir])
+
+  const geri = useCallback(() => {
+    if (kilit.current || spread <= 0) return
+    kilit.current = true
+    setYon('geri')
+    setCeviriyor(true)
+    zamanlayici.current = setTimeout(() => cevirmeyiBitir(spread - 1), 1150)
+  }, [spread, cevirmeyiBitir])
+
+  useEffect(() => {
+    const tu = (e) => {
+      if (e.key === 'ArrowRight') ileri()
+      if (e.key === 'ArrowLeft') geri()
+    }
+    window.addEventListener('keydown', tu)
+    return () => {
+      window.removeEventListener('keydown', tu)
+      if (zamanlayici.current) clearTimeout(zamanlayici.current)
+    }
+  }, [ileri, geri])
+
+  const solSayfa = SAYFALAR[spread * 2]
+  const yaprakOn = SAYFALAR[spread * 2 + 1]
+  const yaprakArka = ceviriyor
+    ? (yon === 'ileri' ? SAYFALAR[(spread + 1) * 2] : SAYFALAR[(spread - 1) * 2])
+    : SAYFALAR[(spread + 1) * 2]
+
+  return (
+    <div className="kitap-sahne">
+      <button
+        type="button"
+        className={`kitap-ok kitap-ok-sol ${spread <= 0 ? 'gizli' : ''}`}
+        onClick={geri}
+        aria-label="Önceki sayfa"
+      >
+        ‹
+      </button>
+
+      <div className="kitap">
+        <div className="kitap-sirt" />
+        <div className="kitap-sayfa-alani">
+          <div className="sayfa sayfa-sol" onClick={geri}>
+            <SayfaIcerik sayfa={solSayfa} />
+          </div>
+          <div
+            className={`sayfa-yapragi ${ceviriyor ? 'ceviriliyor' : ''} ${animsiz ? 'animsiz' : ''}`}
+            onClick={ileri}
+          >
+            <div className="yaprak-yuz yaprak-on">
+              <SayfaIcerik sayfa={yaprakOn} />
+            </div>
+            <div className="yaprak-yuz yaprak-arka">
+              {yaprakArka ? <SayfaIcerik sayfa={yaprakArka} /> : <div className="sayfa-bos" />}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        className={`kitap-ok kitap-ok-sag ${spread >= sonSpread ? 'gizli' : ''}`}
+        onClick={ileri}
+        aria-label="Sonraki sayfa"
+      >
+        ›
+      </button>
+
+      <div className="kitap-sayac">
+        {spread + 1} / {sonSpread + 1}
+      </div>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <div className="sahne">
+      <img className="sahne-bg" src={`${BASE}assets/doga_2_dag_vadisi.jpg`} alt="" />
+      <div className="sahne-perde" />
+      <header className="sahne-baslik">
+        <h1>Dört Mevsimin Tek Manzarası: Ekolojik Döngü</h1>
+      </header>
+      <Kitap />
+      <footer className="sahne-imza">Doğa Defteri · Alp Ampa</footer>
+    </div>
+  )
+}
+
+export default App
