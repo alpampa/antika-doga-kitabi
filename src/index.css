@@ -1,16 +1,3 @@
-:root {
-  --sepya-acik: #ead9b4;
-  --sepya-orta: #d9c08f;
-  --sepya-koyu: #b99a63;
-  --murekkep: #3a2a1a;
-  --murekkep-yumusak: #4d3a24;
-  --altin: #c9a227;
-  --altin-acik: #e8d9a0;
-  --deri-koyu: #2a1508;
-  --deri-orta: #4a2a16;
-  --ahşap: #1a0f07;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -24,10 +11,8 @@ body {
 
 body {
   font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
-  color: var(--murekkep);
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(122, 74, 34, 0.55), transparent 60%),
-    linear-gradient(180deg, #241407 0%, var(--ahşap) 55%, #120a04 100%);
+  color: #f2ead8;
+  background: #0b1218;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -36,14 +21,45 @@ body {
   min-height: 100vh;
 }
 
-.calisma-masasi {
+.sahne {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 34px 16px 48px;
+  padding: 30px 16px 46px;
   gap: 26px;
+}
+
+/* Sinematik mevsim manzarası arka planı (blur'lu) */
+.sahne-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sahne-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(10px) brightness(0.72) saturate(1.25);
+  transform: scale(1.08);
+}
+
+.sahne-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 16, 24, 0.55) 0%, rgba(10, 20, 28, 0.25) 45%, rgba(6, 12, 18, 0.7) 100%),
+    radial-gradient(90% 60% at 50% 0%, rgba(40, 90, 130, 0.28), transparent 70%);
+}
+
+.sahne > *:not(.sahne-bg) {
+  position: relative;
+  z-index: 1;
 }
 
 .sahne-baslik {
@@ -54,78 +70,49 @@ body {
 .sahne-baslik-ana {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
-  font-size: clamp(28px, 4.5vw, 46px);
-  letter-spacing: 0.06em;
-  color: var(--altin-acik);
+  font-size: clamp(26px, 4.2vw, 44px);
+  letter-spacing: 0.05em;
+  color: #f5edd9;
   text-shadow:
     0 2px 0 rgba(0, 0, 0, 0.85),
-    0 0 26px rgba(201, 162, 39, 0.35);
+    0 0 30px rgba(90, 170, 220, 0.35),
+    0 0 60px rgba(0, 0, 0, 0.6);
 }
 
-.sahne-baslik-alt {
-  margin-top: 10px;
-  font-size: clamp(12px, 1.6vw, 15px);
-  font-style: italic;
-  color: #b99a63;
-  letter-spacing: 0.04em;
-}
-
-.sahne-dipnot {
-  max-width: 640px;
-  text-align: center;
-  font-size: 12.5px;
-  font-style: italic;
-  color: #8a6f48;
-  line-height: 1.6;
-}
+/* ============ 3D SAHNE VE KİTAP GÖLGESİ ============ */
 
 .kitap-canvasi {
   margin: 0 auto;
+  perspective: 2000px;
+}
+
+.stf__parent {
+  filter: drop-shadow(0 42px 80px rgba(0, 0, 0, 0.85)) drop-shadow(0 12px 30px rgba(0, 0, 0, 0.7));
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ============ SAYFALAR ============ */
 
-.antik-sayfa {
+.kitap-sayfa {
   background:
-    radial-gradient(ellipse at 18% 26%, rgba(255, 248, 224, 0.55), transparent 55%),
-    radial-gradient(ellipse at 84% 72%, rgba(150, 104, 52, 0.32), transparent 58%),
-    radial-gradient(ellipse at 50% 50%, rgba(224, 196, 140, 0.4), transparent 70%),
-    linear-gradient(135deg, #e9d8b0 0%, #ddc292 30%, #cfae7d 68%, #c29863 100%);
-  border: 1px solid rgba(122, 82, 38, 0.55);
+    radial-gradient(120% 100% at 50% 0%, rgba(58, 84, 110, 0.35), transparent 55%),
+    linear-gradient(160deg, #141d28 0%, #0e151f 55%, #090f17 100%);
+  border: 1px solid rgba(210, 180, 120, 0.28);
   box-shadow:
-    inset 0 0 0 3px rgba(201, 162, 39, 0.28),
-    inset 0 0 0 6px rgba(122, 82, 38, 0.22),
-    inset 0 0 42px rgba(90, 58, 24, 0.38),
-    inset 0 0 8px rgba(60, 38, 14, 0.45);
+    inset 0 0 70px rgba(0, 0, 0, 0.8),
+    inset 0 0 18px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
   position: relative;
   overflow: hidden;
 }
 
-.antik-sayfa::before {
+.kitap-sayfa::before {
   content: '';
   position: absolute;
-  inset: 10px;
-  border: 1px solid rgba(148, 104, 52, 0.45);
-  box-shadow: inset 0 0 0 2px rgba(201, 162, 39, 0.18);
+  inset: 8px;
+  border: 1px solid rgba(210, 180, 120, 0.18);
   pointer-events: none;
-}
-
-.antik-sayfa::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(122, 82, 38, 0.045) 0px,
-      rgba(122, 82, 38, 0.045) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
 }
 
 .sayfa-ic {
@@ -134,7 +121,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 26px 22px 18px;
+  padding: 20px 18px 14px;
   text-align: center;
   overflow: hidden;
 }
@@ -142,27 +129,29 @@ body {
 .sayfa-baslik {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
-  font-size: 21px;
-  color: var(--murekkep);
-  letter-spacing: 0.04em;
+  font-size: 20px;
+  color: #e9dfc8;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .sayfa-cizgi {
-  width: 68%;
+  width: 62%;
   height: 1px;
-  margin: 10px 0 14px;
-  background: linear-gradient(90deg, transparent, var(--altin) 30%, var(--altin) 70%, transparent);
-  box-shadow: 0 1px 0 rgba(90, 58, 24, 0.35);
+  margin: 8px 0 12px;
+  background: linear-gradient(90deg, transparent, rgba(210, 180, 120, 0.85) 30%, rgba(210, 180, 120, 0.85) 70%, transparent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .sayfa-paragraf {
-  font-size: 13.5px;
+  font-size: 13px;
   line-height: 1.75;
-  color: var(--murekkep-yumusak);
-  margin-bottom: 14px;
+  color: #d9cdb4;
+  margin-bottom: 13px;
   text-align: justify;
   hyphens: auto;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .sayfa-imza {
@@ -170,22 +159,24 @@ body {
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-size: 16px;
-  color: var(--altin);
-  text-shadow: 0 1px 0 rgba(90, 58, 24, 0.4);
+  color: #e0c887;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 .sayfa-aciklama {
-  margin-top: 12px;
-  font-size: 11.8px;
-  line-height: 1.6;
+  margin-top: 11px;
+  font-size: 11.6px;
+  line-height: 1.62;
   font-style: italic;
-  color: var(--murekkep-yumusak);
+  color: #cfc2a6;
   text-align: justify;
-  max-width: 92%;
-  border-top: 1px dashed rgba(148, 104, 52, 0.5);
-  padding-top: 9px;
+  max-width: 94%;
+  border-top: 1px dashed rgba(210, 180, 120, 0.4);
+  padding-top: 8px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
 }
 
+/* Görsel: büyük, net ve merkezde */
 .gorsel-cerceve {
   width: 100%;
   flex: 1;
@@ -193,36 +184,39 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(148, 104, 52, 0.6);
+  padding: 4px;
+  border: 1px solid rgba(210, 180, 120, 0.35);
+  background: radial-gradient(90% 90% at 50% 50%, rgba(40, 60, 80, 0.55), rgba(8, 12, 18, 0.9));
   box-shadow:
-    inset 0 0 0 3px rgba(201, 162, 39, 0.25),
-    0 4px 14px rgba(40, 24, 8, 0.45);
-  background: rgba(240, 226, 190, 0.35);
-  padding: 6px;
+    inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 6px 22px rgba(0, 0, 0, 0.65);
 }
 
 .gorsel {
   max-width: 100%;
   max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   display: block;
-  box-shadow: 0 2px 8px rgba(30, 18, 6, 0.4);
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(0, 0, 0, 0.35);
 }
 
-/* ============ KAPAK ============ */
+/* ============ KAPAK (sinematik) ============ */
 
 .kapak-sayfa {
   background:
-    radial-gradient(circle at 50% 30%, rgba(150, 92, 42, 0.5), transparent 55%),
-    radial-gradient(circle at 50% 110%, rgba(0, 0, 0, 0.65), transparent 60%),
-    linear-gradient(150deg, #5a3520 0%, var(--deri-orta) 45%, var(--deri-koyu) 100%);
-  border: 1px solid #0d0603;
+    radial-gradient(130% 100% at 50% 0%, rgba(70, 130, 170, 0.45), transparent 55%),
+    radial-gradient(90% 70% at 50% 110%, rgba(120, 80, 30, 0.35), transparent 65%),
+    linear-gradient(155deg, #182230 0%, #0d141f 55%, #070b12 100%);
+  border: 1px solid rgba(210, 180, 120, 0.4);
   box-shadow:
-    inset 0 0 0 3px rgba(232, 217, 160, 0.22),
-    inset 0 0 0 7px rgba(201, 162, 39, 0.35),
-    inset 0 0 0 10px rgba(20, 10, 4, 0.85),
-    inset 0 0 56px rgba(0, 0, 0, 0.75),
-    inset 0 0 10px rgba(0, 0, 0, 0.6);
+    inset 0 0 0 2px rgba(210, 180, 120, 0.22),
+    inset 0 0 0 5px rgba(0, 0, 0, 0.6),
+    inset 0 0 90px rgba(0, 0, 0, 0.85),
+    inset 0 0 22px rgba(0, 0, 0, 0.65);
 }
 
 .kapak-sayfa::before {
@@ -230,20 +224,8 @@ body {
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.02) 0px,
-      rgba(255, 255, 255, 0.02) 1px,
-      transparent 1px,
-      transparent 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.05) 0px,
-      rgba(0, 0, 0, 0.05) 2px,
-      transparent 2px,
-      transparent 7px
-    );
+    radial-gradient(60% 40% at 30% 20%, rgba(120, 200, 255, 0.08), transparent 70%),
+    radial-gradient(60% 40% at 75% 80%, rgba(255, 170, 70, 0.07), transparent 70%);
   pointer-events: none;
 }
 
@@ -263,33 +245,34 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--altin);
-  outline: 3px solid rgba(232, 217, 160, 0.4);
-  outline-offset: -7px;
+  border: 1px solid rgba(210, 180, 120, 0.65);
+  outline: 1px solid rgba(210, 180, 120, 0.25);
+  outline-offset: -6px;
   padding: 20px 16px;
   text-align: center;
+  background: rgba(6, 10, 16, 0.35);
   box-shadow:
-    inset 0 0 0 3px rgba(20, 10, 4, 0.8),
-    inset 0 0 40px rgba(0, 0, 0, 0.6);
+    inset 0 0 60px rgba(0, 0, 0, 0.7),
+    0 0 30px rgba(70, 140, 190, 0.15);
 }
 
 .kapak-sus {
-  font-size: 24px;
-  color: var(--altin);
-  text-shadow: 0 0 12px rgba(201, 162, 39, 0.6);
+  font-size: 22px;
+  color: #e0c887;
+  text-shadow: 0 0 16px rgba(224, 200, 135, 0.55);
   line-height: 1;
 }
 
 .kapak-baslik {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
-  font-size: 34px;
-  line-height: 1.22;
-  letter-spacing: 0.1em;
-  color: var(--altin-acik);
+  font-size: 33px;
+  line-height: 1.24;
+  letter-spacing: 0.08em;
+  color: #f5edd9;
   text-shadow:
-    0 2px 2px rgba(0, 0, 0, 0.9),
-    0 0 22px rgba(201, 162, 39, 0.45);
+    0 2px 3px rgba(0, 0, 0, 0.95),
+    0 0 26px rgba(90, 170, 220, 0.4);
   margin: 14px 0 8px;
 }
 
@@ -297,48 +280,48 @@ body {
   font-family: 'Merriweather', Georgia, serif;
   font-style: italic;
   font-size: 15px;
-  letter-spacing: 0.14em;
-  color: #d8b76a;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.16em;
+  color: #dcc17f;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .kapak-cizgi {
   width: 74%;
-  height: 2px;
+  height: 1px;
   margin: 16px 0;
-  background: linear-gradient(90deg, transparent, var(--altin) 25%, var(--altin-acik) 50%, var(--altin) 75%, transparent);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(90deg, transparent, #e0c887 25%, #f5edd9 50%, #e0c887 75%, transparent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .kapak-metin {
   font-size: 12px;
   line-height: 1.7;
-  color: #c9a86b;
+  color: #cfc2a6;
   letter-spacing: 0.03em;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
   margin-bottom: 12px;
-}
-
-/* Sayfa çevirme gölgesi */
-.stf__parent {
-  -webkit-tap-highlight-color: transparent;
+  max-width: 90%;
 }
 
 /* Mobil uyum */
 @media (max-width: 640px) {
+  .sahne {
+    padding: 18px 8px 30px;
+    gap: 18px;
+  }
   .sayfa-baslik {
-    font-size: 16px;
+    font-size: 15px;
   }
   .kapak-baslik {
-    font-size: 24px;
+    font-size: 23px;
   }
   .sayfa-ic {
-    padding: 18px 14px 12px;
+    padding: 14px 12px 10px;
   }
   .sayfa-aciklama {
-    font-size: 10.5px;
+    font-size: 10.4px;
   }
   .sayfa-paragraf {
-    font-size: 12px;
+    font-size: 11.6px;
   }
 }
