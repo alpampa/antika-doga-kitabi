@@ -84,8 +84,14 @@ if (SAYFALAR.length % 2 === 1) {
 function KapakIcerik() {
   return (
     <div className="kapak-ic">
+      <img
+        className="kapak-gorsel"
+        src={BASE + 'assets/doga_1_karisik_orman.jpg'}
+        alt=""
+      />
+      <div className="kapak-perde" />
       <div className="kapak-cerceve">
-        <div className="kapak-sus">✦</div>
+        <div className="kapak-sus">✦ ✦</div>
         <h1 className="kapak-baslik">
           DÖRT MEVSİMİN<br />TEK MANZARASI
         </h1>
@@ -95,7 +101,7 @@ function KapakIcerik() {
           Doğanın usta fırçasından on manzara: kışın ayazından baharın
           tomurcuğuna uzanan ekolojik döngü
         </p>
-        <div className="kapak-sus">✦</div>
+        <div className="kapak-sus">✦ ✦</div>
       </div>
     </div>
   )
