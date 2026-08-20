@@ -245,6 +245,21 @@ body {
   transition: none;
 }
 
+/* Geri cevirme (sol ok): sol yaprak sirt etrafinda sola dogru katlanir */
+.sayfa-yapragi-geri {
+  left: 0;
+  transform-origin: right center;
+  z-index: 6;
+}
+
+.sayfa-yapragi-geri.ceviriliyor-geri {
+  transform: rotateY(180deg);
+}
+
+.sayfa-yapragi-geri.animsiz {
+  transition: none;
+}
+
 .yaprak-yuz {
   position: absolute;
   inset: 0;

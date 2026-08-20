@@ -296,31 +296,56 @@ function Kitap() {
               )}
             </div>
 
-            <div
-              className={
-                'sayfa-yapragi' +
-                (ceviriyor ? ' ceviriliyor' : '') +
-                (animsiz ? ' animsiz' : '')
-              }
-              onClick={ileri}
-            >
-              <div className="yaprak-yuz yaprak-on">
-                <SayfaIcerik sayfa={yaprakOn} />
-                {yaprakOn && yaprakOn.tip !== 'kapak' && (
-                  <div className="sayfa-numara">
-                    Sayfa {spread * 2 + 2} / {SAYFALAR.length}
-                  </div>
-                )}
+            {!(ceviriyor && yon === 'geri') && (
+              <div
+                className={
+                  'sayfa-yapragi' +
+                  (ceviriyor ? ' ceviriliyor' : '') +
+                  (animsiz ? ' animsiz' : '')
+                }
+                onClick={ileri}
+              >
+                <div className="yaprak-yuz yaprak-on">
+                  <SayfaIcerik sayfa={yaprakOn} />
+                  {yaprakOn && yaprakOn.tip !== 'kapak' && (
+                    <div className="sayfa-numara">
+                      Sayfa {spread * 2 + 2} / {SAYFALAR.length}
+                    </div>
+                  )}
+                </div>
+                <div className="yaprak-yuz yaprak-arka">
+                  {yaprakArka ? <SayfaIcerik sayfa={yaprakArka} /> : <div className="sayfa-bos" />}
+                  {yaprakArka && yaprakArka.tip !== 'kapak' && (
+                    <div className="sayfa-numara">
+                      Sayfa {yon === 'ileri' ? (spread + 1) * 2 + 1 : (spread - 1) * 2 + 1} / {SAYFALAR.length}
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="yaprak-yuz yaprak-arka">
-                {yaprakArka ? <SayfaIcerik sayfa={yaprakArka} /> : <div className="sayfa-bos" />}
-                {yaprakArka && yaprakArka.tip !== 'kapak' && (
+            )}
+
+            {ceviriyor && yon === 'geri' && (
+              <div className="sayfa-yapragi sayfa-yapragi-geri ceviriliyor-geri" onClick={geri}>
+                <div className="yaprak-yuz yaprak-on">
+                  <SayfaIcerik sayfa={solSayfa} />
+                  {solSayfa && solSayfa.tip !== 'kapak' && (
+                    <div className="sayfa-numara">
+                      Sayfa {spread * 2 + 1} / {SAYFALAR.length}
+                    </div>
+                  )}
+                </div>
+                <div className="yaprak-yuz yaprak-arka">
+                  {SAYFALAR[(spread - 1) * 2 + 1] ? (
+                    <SayfaIcerik sayfa={SAYFALAR[(spread - 1) * 2 + 1]} />
+                  ) : (
+                    <div className="sayfa-bos" />
+                  )}
                   <div className="sayfa-numara">
-                    Sayfa {yon === 'ileri' ? (spread + 1) * 2 + 1 : (spread - 1) * 2 + 1} / {SAYFALAR.length}
+                    Sayfa {(spread - 1) * 2 + 2} / {SAYFALAR.length}
                   </div>
-                )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
