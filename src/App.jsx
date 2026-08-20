@@ -44,30 +44,35 @@ const URUN_SAYFALARI = [
   {
     img: 'urun_01_kitap.jpg',
     baslik: 'Kitap Kapağı',
+    tam: true,
     aciklama:
       'Kapağın yüzeyi, doğanın dört mevsimlik döngüsünü kendi varlığında taşır; tomurcuklar yaza, yapraklar kışa açılan bir sahife gibi kıvrılır.',
   },
   {
     img: 'urun_02_kanvas.jpg',
     baslik: 'Kanvas Tablo',
+    tam: true,
     aciklama:
       'Geniş tuval, mevsimlerin atmosferik değerlerini kesintisiz taşır; tuvalli doku, ağaç kabuğu ve yaprak greniyle kardeşlik kurar.',
   },
   {
     img: 'urun_06_takvim.jpg',
     baslik: 'Masa Takvimi',
+    tam: true,
     aciklama:
       'Sayfanın eğik duruşu, panoramanın genişliğini vurgular; her gün çevrilen yaprak, doğanın kendi takvimini hatırlatır.',
   },
   {
     img: 'urun_07_yapboz_kutusu.jpg',
     baslik: 'Ahşap Yapboz Kutusu',
+    tam: true,
     aciklama:
       'Ahşap kutunun dokusu, yaşlı ağaçların yaşam döngüsüyle sıcak bir uyum kurar; parçalar birleştiğinde dört mevsim tek bir orman olur.',
   },
   {
     img: 'urun_10_defter.jpg',
     baslik: 'Defter Kapağı',
+    tam: true,
     aciklama:
       'Deri kapağın kabartması, geçişlere fiziksel derinlik katar; bu deftere yazılan her satır, doğanın döngüsü gibi kalıcıdır.',
   },
@@ -144,6 +149,7 @@ function KapakIcerik({ ac }) {
         className="kapak-gorsel"
         src={BASE + 'assets/doga_1_karisik_orman.jpg'}
         alt=""
+        decoding="async"
       />
       <div className="kapak-perde" />
       <div className="kapak-cerceve">
@@ -169,7 +175,7 @@ function KapakIcerik({ ac }) {
 
 function OnsozIcerik() {
   return (
-    <div className="sayfa-ic metin-sayfasi kagit-ic">
+    <div className="sayfa-ic metin-sayfasi">
       <h2 className="sayfa-baslik">Önsöz</h2>
       <div className="sayfa-cizgi" />
       <p className="sayfa-paragraf">
@@ -201,7 +207,7 @@ function IceriklerIcerik({ git }) {
     { numara: 'IV', ad: 'Sonsöz', aciklama: 'Döngünün kapanışı', hedef: 12 },
   ]
   return (
-    <div className="sayfa-ic metin-sayfasi kagit-ic icerikler-sayfasi">
+    <div className="sayfa-ic metin-sayfasi icerikler-sayfasi">
       <h2 className="sayfa-baslik">İçindekiler</h2>
       <div className="sayfa-cizgi" />
       <div className="icerikler-liste">
@@ -230,13 +236,12 @@ function IceriklerIcerik({ git }) {
 function BolumIcerik({ b }) {
   return (
     <div className="bolum-ic">
-      <img className="bolum-gorsel" src={BASE + 'assets/' + b.img} alt="" />
-      <div className="bolum-perde" />
-      <div className="bolum-icerik">
-        <div className="bolum-numara">Bölüm {b.numara}</div>
-        <h2 className="bolum-ad">{b.ad}</h2>
-        <div className="bolum-cizgi" />
-        <p className="bolum-metin">{b.metin}</p>
+      <div className="bolum-numara">Bölüm {b.numara}</div>
+      <h2 className="bolum-ad">{b.ad}</h2>
+      <div className="bolum-cizgi" />
+      <p className="bolum-metin">{b.metin}</p>
+      <div className="bolum-gorsel-cerceve">
+        <img className="bolum-gorsel" src={BASE + 'assets/' + b.img} alt="" decoding="async" />
       </div>
     </div>
   )
@@ -244,7 +249,7 @@ function BolumIcerik({ b }) {
 
 function AlintiIcerik({ a }) {
   return (
-    <div className="sayfa-ic kagit-ic alinti-sayfasi">
+    <div className="sayfa-ic alinti-sayfasi">
       <div className="alinti-tirnak">“</div>
       <p className="alinti-metin">{a.metin}</p>
       <div className="alinti-kaynak">— {a.kaynak}</div>
@@ -254,7 +259,7 @@ function AlintiIcerik({ a }) {
 
 function SonsozIcerik() {
   return (
-    <div className="sayfa-ic metin-sayfasi kagit-ic">
+    <div className="sayfa-ic metin-sayfasi">
       <h2 className="sayfa-baslik">Sonsöz</h2>
       <div className="sayfa-cizgi" />
       <p className="sayfa-paragraf">
@@ -273,12 +278,24 @@ function SonsozIcerik() {
 
 function GorselIcerik({ g }) {
   const yol = BASE + 'assets/' + g.img
+  if (g.tam) {
+    return (
+      <div className="tam-sayfasi">
+        <img className="tam-gorsel" src={yol} alt={g.baslik} decoding="async" />
+        <div className="tam-perde" />
+        <div className="tam-altyazi">
+          <h2 className="tam-baslik">{g.baslik}</h2>
+          <div className="tam-cizgi" />
+          <p className="tam-aciklama">{g.aciklama}</p>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="sayfa-ic gorsel-sayfasi">
       <h2 className="sayfa-baslik">{g.baslik}</h2>
       <div className="sayfa-cizgi" />
       <div className="gorsel-cerceve">
-        <img className="gorsel-golge" src={yol} alt="" aria-hidden="true" />
         <img className="gorsel" src={yol} alt={g.baslik} decoding="async" />
       </div>
       <p className="sayfa-aciklama">{g.aciklama}</p>
@@ -312,6 +329,7 @@ function Kitap() {
   const kilit = useRef(false)
   const zamanlayici = useRef(null)
   const sesBaglam = useRef(null)
+  const dokunma = useRef(null)
   const suresi = hizli ? 90 : 1080
 
   const sonSpread = Math.floor(SAYFALAR.length / 2) - 1
@@ -341,7 +359,7 @@ function Kitap() {
       filtre.frequency.value = 1600
       filtre.Q.value = 0.7
       const kazanc = ctx.createGain()
-      kazanc.gain.value = 0.14
+      kazanc.gain.value = 0.12
       kaynak.connect(filtre)
       filtre.connect(kazanc)
       kazanc.connect(ctx.destination)
@@ -483,6 +501,20 @@ function Kitap() {
     }
   }
 
+  const dokunBasla = (e) => {
+    dokunma.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+  }
+
+  const dokunBitir = (e) => {
+    if (!dokunma.current) return
+    const dx = e.changedTouches[0].clientX - dokunma.current.x
+    const dy = e.changedTouches[0].clientY - dokunma.current.y
+    dokunma.current = null
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.4) return
+    if (dx < 0) ileri()
+    else geri()
+  }
+
   const geriCeviriliyor = ceviriyor && yon === 'geri'
 
   const solSayfa = SAYFALAR[spread * 2]
@@ -520,7 +552,7 @@ function Kitap() {
       <header className="sahne-baslik">
         <h1>Dört Mevsimin Tek Manzarası: Ekolojik Döngü</h1>
       </header>
-      <div className="kitap-sahne">
+      <div className="kitap-sahne" onTouchStart={dokunBasla} onTouchEnd={dokunBitir}>
         <button
           type="button"
           className={'kitap-ok kitap-ok-sol' + (spread <= 0 ? ' gizli' : '')}
